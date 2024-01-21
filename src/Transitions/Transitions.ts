@@ -2,18 +2,16 @@ import { BrowserSupport } from "BrowserSupport";
 import type { Options } from "PageSwitch";
 import { Register } from "./Register";
 import type { ITransitions } from "./types";
+import type { TransitionParams } from "./Effects";
 import { TransitionFN } from "./Effects";
 
 export class Transitions {
   [key: string]: TransitionFN;
   private static readonly coordinates = ["X", "Y", ""] as const;
   private static readonly modifiers = ["", "Reverse", "In", "Out"] as const;
-  public fade(
-    currentPage: HTMLElement,
-    currentPosition: number,
-    nextPage?: HTMLElement,
-    _nextPosition?: number
-  ) {
+
+  public fade(...params: TransitionParams) {
+    const [currentPage, currentPosition, nextPage] = params;
     if (BrowserSupport.opacity) {
       currentPage.style.opacity = `${1 - Math.abs(currentPosition)}`;
       if (nextPage) {
