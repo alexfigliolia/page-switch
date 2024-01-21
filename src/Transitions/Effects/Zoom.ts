@@ -1,19 +1,14 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class Zoom extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      _nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       if (!BrowserSupport.transform) {
-        // @ts-ignore
-        return this.instance[`scroll${name}`](arguments);
+        return this.instance[`scroll${name}`](...params);
       }
+      const [currentPage, currentPosition, nextPage] = params;
       const zIndex = Number(Math.abs(currentPosition) < 0.5);
       currentPage.style[BrowserSupport.transform] = `scale${name}(${Math.abs(
         1 - Math.abs(currentPosition) * 2

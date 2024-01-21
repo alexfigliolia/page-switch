@@ -1,15 +1,11 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { AbstractEffect, Modifier, Name } from "./types";
+import type { AbstractEffect, Modifier, Name, TransitionParams } from "./types";
 
 export class ScrollCover extends Effect implements AbstractEffect {
   public create(name: Name, type: Modifier) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
       const prop = name || this.XY[this.PW.direction];
       const zIndex = Number(
         type == "In" ||

@@ -1,22 +1,18 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class Slice extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       const prop = name || this.XY[this.PW.direction];
       const length = prop == "X" ? "width" : "height";
       const total: number =
         this.PW.container[
           BrowserSupport.camelCase(`client-${length}`) as "clientHeight"
         ];
-      const end = currentPosition == 0 || nextPosition == 0;
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
+      const end = currentPosition === 0 || nextPosition === 0;
       currentPage.style[length] = end ? "100%" : `${total}px`;
       if (currentPage.parentNode == this.PW.container) {
         this.createWrap(currentPage);

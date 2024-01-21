@@ -1,19 +1,14 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class Skew extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       if (!BrowserSupport.transform) {
-        // @ts-ignore
-        return this.instance[`scroll${name}`](arguments);
+        return this.instance[`scroll${name}`](...params);
       }
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
       const zIndex = Number(Math.abs(currentPosition) < 0.5);
       currentPage.style[BrowserSupport.transform] = `skew${name}(${
         currentPosition * 180

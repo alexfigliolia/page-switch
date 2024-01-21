@@ -1,15 +1,11 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class Scroll extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
       const prop = name || this.XY[this.PW.direction];
       BrowserSupport.transform
         ? (currentPage.style[BrowserSupport.transform] = `translate${prop}(${

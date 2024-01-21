@@ -1,19 +1,14 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class FlipClock extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       if (!BrowserSupport.perspective) {
-        // @ts-ignore
-        return this.instance[`scroll${name}`](arguments);
+        return this.instance[`scroll${name}`](...params);
       }
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
       const prop = name || this.XY[1 - this.PW.direction];
       const zIndex = Number(Math.abs(currentPosition) < 0.5);
       const fix = prop == "X" ? 1 : -1;
@@ -59,19 +54,19 @@ export class FlipClock extends Effect implements BaseEffect {
         ] = `perspective(1000px) rotate${prop}(${n}deg)`;
       }
       this.fixBlock(currentPage, nextPage);
-      if (0 == currentPosition || nextPosition == 0) {
-        currentPage = this.PW.pages[this.PW.current];
-        currentPage.style.height =
-          currentPage.style.width =
-          this.parentNode(currentPage).style.height =
-          this.parentNode(currentPage).style.width =
+      if (currentPosition === 0 || nextPosition === 0) {
+        const visiblePage = this.PW.pages[this.PW.current];
+        visiblePage.style.height =
+          visiblePage.style.width =
+          this.parentNode(visiblePage).style.height =
+          this.parentNode(visiblePage).style.width =
             "100%";
-        currentPage.style.top =
-          currentPage.style.left =
-          this.parentNode(currentPage).style.top =
-          this.parentNode(currentPage).style.left =
+        visiblePage.style.top =
+          visiblePage.style.left =
+          this.parentNode(visiblePage).style.top =
+          this.parentNode(visiblePage).style.left =
             `${0}`;
-        this.parentNode(currentPage).style.zIndex = `${2}`;
+        this.parentNode(visiblePage).style.zIndex = `${2}`;
       }
     };
   }

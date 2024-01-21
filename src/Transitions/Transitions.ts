@@ -19,15 +19,15 @@ export class Transitions {
       if (nextPage) {
         nextPage.style.opacity = `${Math.abs(currentPosition)}`;
       }
-    } else {
-      currentPage.style.filter = `alpha(opacity=${
-        (1 - Math.abs(currentPosition)) * 100
+      return;
+    }
+    currentPage.style.filter = `alpha(opacity=${
+      (1 - Math.abs(currentPosition)) * 100
+    })`;
+    if (nextPage) {
+      nextPage.style.filter = `alpha(opacity=${
+        Math.abs(currentPosition) * 100
       })`;
-      if (nextPage) {
-        nextPage.style.filter = `alpha(opacity=${
-          Math.abs(currentPosition) * 100
-        })`;
-      }
     }
   }
 

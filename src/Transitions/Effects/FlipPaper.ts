@@ -1,6 +1,6 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class FlipPaper extends Effect implements BaseEffect {
   private backDiv: HTMLDivElement | null = null;
@@ -8,12 +8,8 @@ export class FlipPaper extends Effect implements BaseEffect {
     "position:absolute;z-index:2;top:0;left:0;height:0;width:0;background:no-repeat #fff;";
 
   public create(name: Name) {
-    return (
-      _currentPage: HTMLElement,
-      currentPosition: number,
-      _nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
+      const [, currentPosition, , nextPosition] = params;
       const prop = name || this.XY[this.PW.direction];
       const length = prop == "X" ? "width" : "height";
       const m = Math.abs(currentPosition) * 100;
@@ -28,9 +24,9 @@ export class FlipPaper extends Effect implements BaseEffect {
         this.PW.container.appendChild(this.backDiv);
       }
       // @ts-ignore
-      this.instance[`slice${name}`](arguments);
+      this.instance[`slice${name}`](...params);
       this.backDiv.style.display =
-        currentPosition == 0 || nextPosition == 0 ? "none" : "block";
+        currentPosition === 0 || nextPosition === 0 ? "none" : "block";
       this.backDiv.style.width = this.backDiv.style.height = "100%";
       this.backDiv.style[length] = `${currentPosition < 0 ? m : 100 - m}%`;
       this.backDiv.style[this.LT[prop]] = `${

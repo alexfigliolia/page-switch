@@ -1,21 +1,16 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { AbstractEffect, Name } from "./types";
+import type { AbstractEffect, Name, TransitionParams } from "./types";
 
 export class Flip3D extends Effect implements AbstractEffect {
   private initialized = false;
 
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      _nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       if (!BrowserSupport.preserve3D) {
-        // @ts-ignore;
-        return this.instance[`scroll${name}`](arguments);
+        return this.instance[`scroll${name}`](...params);
       }
+      const [currentPage, currentPosition, nextPage] = params;
       const prop = name || ["X", "Y"][1 - this.PW.direction];
       const fe = prop == "X" ? -1 : 1;
       const fix = fe * (currentPosition < 0 ? 1 : -1);

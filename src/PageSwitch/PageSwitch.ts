@@ -266,7 +266,7 @@ export class PageSwitch extends Options {
         this.Animation.lastFrame = null;
         this.fire("after", fixIndex, current);
       } else {
-        this.Animation.lastFrame = this.Animation.nextFrame(ani);
+        this.Animation.run(ani);
       }
     };
     ani();
@@ -308,26 +308,23 @@ export class PageSwitch extends Options {
       case 2:
         if (canDrag && this.rect && this.offsetParent) {
           const rect: Rect = [ev.clientX, ev.clientY];
-          const _rect = this.rect;
-          const offset = rect[this.direction] - _rect[this.direction];
+          const offset = rect[this.direction] - this.rect[this.direction];
           const total =
             this.offsetParent[this.direction ? "clientHeight" : "clientWidth"];
-          let nextIndex: number;
-          if (this.drag == null && _rect.toString() != rect.toString()) {
+          if (this.drag === null && this.rect.toString() != rect.toString()) {
             this.drag =
               Math.abs(offset) >=
-              Math.abs(rect[1 - this.direction] - _rect[1 - this.direction]);
+              Math.abs(
+                rect[1 - this.direction] - this.rect[1 - this.direction]
+              );
             this.drag && this.fire("dragStart", ev);
           }
           if (this.drag && this.percent !== null) {
             let percent = this.percent + (total && offset / total);
-            if (
-              !this.pages[
-                (nextIndex = this.fixIndex(
-                  this.current + (percent > 0 ? -1 : 1)
-                ))
-              ]
-            ) {
+            const nextIndex = this.fixIndex(
+              this.current + (percent > 0 ? -1 : 1)
+            );
+            if (!this.pages[nextIndex]) {
               percent /= Math.abs(offset) / total + 2;
             }
             this.fixBlock(this.current, nextIndex);

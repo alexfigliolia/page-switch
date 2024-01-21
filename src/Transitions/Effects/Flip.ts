@@ -1,19 +1,14 @@
 import { BrowserSupport } from "BrowserSupport";
 import { Effect } from "./Effect";
-import type { BaseEffect, Name } from "./types";
+import type { BaseEffect, Name, TransitionParams } from "./types";
 
 export class Flip extends Effect implements BaseEffect {
   public create(name: Name) {
-    return (
-      currentPage: HTMLElement,
-      currentPosition: number,
-      nextPage: HTMLElement,
-      nextPosition: number
-    ) => {
+    return (...params: TransitionParams) => {
       if (!BrowserSupport.perspective) {
-        // @ts-ignore
-        return this.instance[`scroll${name}`](arguments);
+        return this.instance[`scroll${name}`](...params);
       }
+      const [currentPage, currentPosition, nextPage, nextPosition] = params;
       const prop = name || ["X", "Y"][1 - this.PW.direction];
       const fix = prop == "X" ? -1 : 1;
       currentPage.style[BrowserSupport.backfaceVisibility] = "hidden";

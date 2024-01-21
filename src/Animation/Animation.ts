@@ -9,6 +9,10 @@ export class Animation {
   public nextFrame = this.RAF().bind(BrowserSupport.ROOT);
   public cancelFrame = this.CAF().bind(BrowserSupport.ROOT);
 
+  public run(func: () => void) {
+    this.lastFrame = this.nextFrame(func);
+  }
+
   public cancel() {
     if (this.lastFrame) {
       this.cancelFrame(this.lastFrame);
