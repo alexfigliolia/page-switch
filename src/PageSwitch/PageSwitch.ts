@@ -193,7 +193,7 @@ export class PageSwitch extends Options {
       event.button < 1 &&
       event.length < 2 &&
       (!this.pointerType || this.pointerType == event.eventType) &&
-      (this.mouse || event.pointerType != "mouse")
+      (this.mouse || event.pointerType !== "mouse")
     );
   }
 

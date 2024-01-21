@@ -59,8 +59,9 @@ export class Events {
         const code = this.STATES[suffix];
         const event = BrowserSupport.camelCase(prefix + suffix);
         map[_prefix][event] = code;
-        this.EVENT_TO_TYPE[event.toLowerCase()] = _prefix;
-        this.CODES[event.toLowerCase()] = code;
+        const lowered = event.toLowerCase();
+        this.EVENT_TO_TYPE[lowered] = _prefix;
+        this.CODES[lowered] = code;
         if (code == 1) {
           this.START_EVENTS.push(event);
         } else {
@@ -75,9 +76,6 @@ export class Events {
     const event: Record<string, any> = {};
     const which = oldEvent.which;
     const button = oldEvent.button;
-    let pointers;
-    let pointer;
-
     Events.eventDatum.forEach((property) => {
       event[property] = oldEvent[property];
     });
@@ -102,7 +100,8 @@ export class Events {
         event.returnValue = oldEvent.returnValue = false;
       }
     };
-    if ((pointers = this.POINTERS[event.eventType])) {
+    let pointers = this.POINTERS[event.eventType];
+    if (pointers) {
       switch (event.eventType) {
         case "mouse":
         case "pointer": {
@@ -116,7 +115,8 @@ export class Events {
           this.POINTERS[event.eventType] = pointers = oldEvent.touches;
           break;
       }
-      if ((pointer = this.pointerItem(pointers, 0))) {
+      const pointer = this.pointerItem(pointers, 0);
+      if (pointer) {
         event.clientX = pointer.clientX;
         event.clientY = pointer.clientY;
       }
@@ -140,17 +140,16 @@ export class Events {
   }
 
   private static pointerLength(obj: Record<string, any>) {
-    let len = 0,
-      key;
     if (this.type(obj.length) == "number") {
-      len = obj.length;
-    } else if ("keys" in Object) {
-      len = Object.keys(obj).length;
-    } else {
-      for (key in obj) {
-        if (obj.hasOwnProperty(key)) {
-          len++;
-        }
+      return obj.length;
+    }
+    if ("keys" in Object) {
+      return Object.keys(obj).length;
+    }
+    let len = 0;
+    for (const key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        len++;
       }
     }
     return len;

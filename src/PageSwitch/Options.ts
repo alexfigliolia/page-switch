@@ -1,7 +1,11 @@
 import type { EaseString, EasingFN } from "Easing";
 import { Easing } from "Easing";
-import type { Transition, TransitionFN, ITransitions } from "Transitions";
-import { createTransitions } from "Transitions";
+import {
+  Transitions,
+  type Transition,
+  type TransitionFN,
+  type ITransitions,
+} from "Transitions";
 import type { IDOrElement, IOptions, ListenerCache, PageDatum } from "./types";
 
 export class Options {
@@ -41,7 +45,8 @@ export class Options {
     this.pages = this.children(this.container);
     this.length = this.pages.length;
     this.initializePages();
-    this.transitions = createTransitions(this);
+    this.transitions = Transitions.create(this);
+    console.log(this.transitions);
     this.ease = this.setEasing(options.ease);
     this.transition = this.setTransition(options.transition);
   }
@@ -108,7 +113,6 @@ export class Options {
   }
 
   private integer(value: any) {
-    // @ts-ignore;
     return parseInt(value);
   }
 

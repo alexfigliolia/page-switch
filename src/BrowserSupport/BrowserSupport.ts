@@ -70,7 +70,6 @@ export class BrowserSupport {
     const style =
       (this.ROOT.getComputedStyle &&
         this.ROOT.getComputedStyle(element, null)) ||
-      // @ts-ignore
       element.currentStyle ||
       element.style;
     return style[prop] as string;

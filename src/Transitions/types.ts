@@ -1,18 +1,4 @@
-export type CurrentTransition = (
-  currentPage: HTMLElement,
-  currentPosition: number,
-  nextPage?: HTMLElement,
-  nextPosition?: number
-) => void;
-
-export type NextTransition = (
-  currentPage: HTMLElement,
-  currentPosition: number,
-  nextPage: HTMLElement,
-  nextPosition: number
-) => void;
-
-export type TransitionFN = CurrentTransition | NextTransition;
+import type { TransitionFN } from "./Effects";
 
 export interface ITransitions {
   fade: TransitionFN;
