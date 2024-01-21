@@ -46,7 +46,6 @@ export class Options {
     this.length = this.pages.length;
     this.initializePages();
     this.transitions = Transitions.create(this);
-    console.log(this.transitions);
     this.ease = this.setEasing(options.ease);
     this.transition = this.setTransition(options.transition);
   }
