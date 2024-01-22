@@ -180,13 +180,15 @@ PW.on("dragEnd", (event: DragEvent) => {
 ```
 
 ### Demo
-I'm sure the moment, most readers have been waiting for. Here's a [really cool demo](https://github.boy.im/pageSwitch/pic.html) created by the original author @qiqiboy.
+I'm sure the moment most readers have been waiting for. Here's a [really cool demo](https://github.boy.im/pageSwitch/pic.html) created by the original author @qiqiboy.
 
-If you're wondering, why I decided to rewrite the original library please read on.
+If you're wondering why I decided to rewrite the original library please read on.
 
-The original author created this library over ten years ago - dealing with all of the nuanced browser incompatibilities. In spite of this, it's one of the best open-source slider animation libraries in existence. The library never relied on JQuery or any other framework that may bloat its size - or would make standardizing it across browsers easier. The original author really knew his stuff.
+The author who created this library did so over ten years ago - dealing with all of the nuanced browser incompatibilities. In spite of this, it's one of the best open-source slider animation libraries in existence. The library never relied on JQuery or any other framework that may bloat its size - or would make standardizing it across browsers easier. The original author really knew his stuff.
 
 Over time, there began to be some browser compatibility issues as certain legacy API's began to be phased out. Because the original author has since moved on, and I used this library in a ton of client websites and apps back in the day, I felt the desire to fix the incoming issues as well as try to modernize it a bit for new projects.
+
+I've used this library with Svelte, React, Vue - just about every modern framework and it continues to hold up nicely. If you wish to check out the original, it can be found [here.](https://github.com/qiqiboy/pageSwitch).
 
 
 
