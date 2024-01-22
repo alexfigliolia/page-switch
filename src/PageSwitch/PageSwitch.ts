@@ -1,6 +1,6 @@
-import { Events } from "Events";
 import { Animation } from "Animation";
 import { BrowserSupport } from "BrowserSupport";
+import { Events, type IEvent, type PWEvent } from "Events";
 import type { Nullable } from "Types";
 import { Options } from "./Options";
 import type {
@@ -133,15 +133,16 @@ export class PageSwitch extends Options {
     if (this.mousewheel) {
       containerEvents.push(...Events.WHEEL_EVENTS);
     }
+    const handler = this.handler as unknown as EventListener;
     containerEvents.forEach((event) => {
-      this.container[mode](event, this.handler, BrowserSupport.passive);
+      this.container[mode](event, handler, BrowserSupport.passive);
     });
     const documentEvents = [...Events.MOVE_EVENTS];
     if (this.arrowKey) {
       documentEvents.push("keydown");
     }
     documentEvents.forEach((event) => {
-      BrowserSupport.DOC[mode](event, this.handler, BrowserSupport.passive);
+      BrowserSupport.DOC[mode](event, handler, BrowserSupport.passive);
     });
   }
 
@@ -197,7 +198,7 @@ export class PageSwitch extends Options {
     return this.fire("update", currentPage, current, nextPage, nextPercent);
   }
 
-  private canDrag(event: Record<string, any>) {
+  private canDrag(event: PWEvent) {
     return (
       event.button < 1 &&
       event.length < 2 &&
@@ -307,7 +308,7 @@ export class PageSwitch extends Options {
     }
   }
 
-  private handler(oldEvent: Record<string, any>) {
+  private handler<E extends IEvent>(oldEvent: E) {
     if (this.frozen) {
       return;
     }

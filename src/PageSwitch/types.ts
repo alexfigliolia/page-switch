@@ -1,4 +1,5 @@
 import type { EaseString, EasingFN } from "Easing";
+import type { PWEvent } from "Events";
 import type { Transition } from "Transitions";
 
 export interface IOptions {
@@ -34,9 +35,9 @@ export type PageSwitchEvents = {
     nextPage?: HTMLElement,
     nextPosition?: number
   ) => void;
-  dragStart: (event: Record<string, any>) => void;
-  dragMove: (event: Record<string, any>) => void;
-  dragEnd: (event: Record<string, any>) => void;
+  dragStart: (event: PWEvent) => void;
+  dragMove: (event: PWEvent) => void;
+  dragEnd: (event: PWEvent) => void;
 };
 
 export type PageSwitchEvent = Extract<keyof PageSwitchEvents, string>;

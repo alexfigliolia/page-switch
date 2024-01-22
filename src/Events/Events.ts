@@ -1,5 +1,11 @@
 import { BrowserSupport } from "BrowserSupport";
-import type { EventCache, EventMap, PointerTypes } from "./types";
+import type {
+  IEvent,
+  PWEvent,
+  EventMap,
+  EventCache,
+  PointerTypes,
+} from "./types";
 
 export class Events {
   public POINTERS: EventCache = {
@@ -72,11 +78,12 @@ export class Events {
     return map;
   }
 
-  public filterEvent(oldEvent: Record<string, any>) {
-    const event: Record<string, any> = {};
+  public filterEvent<E extends IEvent>(oldEvent: E) {
+    const event = {} as PWEvent;
     const which = oldEvent.which;
     const button = oldEvent.button;
     Events.eventDatum.forEach((property) => {
+      // @ts-ignore
       event[property] = oldEvent[property];
     });
     event.oldEvent = oldEvent;
@@ -92,7 +99,7 @@ export class Events {
       oldEvent.srcElement ||
       BrowserSupport.DOC.documentElement;
     if (event.target.nodeType === 3) {
-      event.target = event.target.parentNode;
+      event.target = event.target.parentNode as HTMLElement;
     }
     event.preventDefault = () => {
       if (!BrowserSupport.passive) {
@@ -100,7 +107,7 @@ export class Events {
         event.returnValue = oldEvent.returnValue = false;
       }
     };
-    let pointers = this.POINTERS[event.eventType];
+    let pointers = this.POINTERS[event.eventType] as Record<string, any>;
     if (pointers) {
       switch (event.eventType) {
         case "mouse":
@@ -111,9 +118,11 @@ export class Events {
             : (pointers[id] = oldEvent);
           break;
         }
-        case "touch":
-          this.POINTERS[event.eventType] = pointers = oldEvent.touches;
+        case "touch": {
+          const touches = oldEvent.touches as TouchList;
+          this.POINTERS[event.eventType] = pointers = touches;
           break;
+        }
       }
       const pointer = this.pointerItem(pointers, 0);
       if (pointer) {
@@ -157,8 +166,8 @@ export class Events {
 
   public static type(obj: any) {
     if (obj === null) {
-      // eslint-disable-next-line @typescript-eslint/restrict-plus-operands
-      return `${obj}`; //eslint-disable-line @typescript-eslint/restrict-template-expressions
+      // eslint-disable-next-line
+      return obj + "";
     }
     return typeof obj == "object" || typeof obj == "function"
       ? Events.CLASS_TO_TYPE[toString.call(obj)] || "object"
