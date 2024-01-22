@@ -34,7 +34,7 @@ export class Options {
     this.container = this.getSelector(selector);
     this.loop = !!options.loop;
     this.mouse = !!options.mouse;
-    this.frozen = !!options.freeze;
+    this.frozen = !!options.frozen;
     this.playing = !!options.autoplay;
     this.arrowKey = !!options.arrowKey;
     this.mousewheel = !!options.mousewheel;
@@ -50,10 +50,9 @@ export class Options {
     this.transition = this.setTransition(options.transition);
   }
 
-  public static defaults = {
+  public static readonly defaults: IOptions = {
     duration: 600,
     direction: 1,
-    current: 0,
     loop: true,
     start: 0,
     mouse: true,

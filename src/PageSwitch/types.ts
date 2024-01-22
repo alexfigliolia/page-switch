@@ -3,18 +3,15 @@ import type { Transition } from "Transitions";
 
 export interface IOptions {
   start: number;
-  frozen: boolean;
   arrowKey: boolean;
-  playing: boolean;
   interval: number;
   mousewheel: boolean;
   mouse: boolean;
   loop: boolean;
-  current: number;
   direction: 0 | 1;
   duration: number;
   autoplay: boolean;
-  freeze: boolean;
+  frozen: boolean;
   transition: Transition;
   ease: EaseString | EasingFN;
 }
