@@ -45,7 +45,7 @@ export class PageSwitch extends Options {
     this.clearPlayTimer();
   }
 
-  public prev() {
+  public previous() {
     return this.slide(this.current - 1);
   }
 
@@ -109,6 +109,15 @@ export class PageSwitch extends Options {
     if (index <= this.current) {
       this.slide((this.current = Math.max(0, this.current - 1)));
     }
+  }
+
+  public setInterval(interval: number) {
+    this.interval = interval;
+    this.clearPlayTimer();
+    if (!this.playing) {
+      this.playing = true;
+    }
+    this.firePlay();
   }
 
   private addListeners() {
@@ -404,7 +413,7 @@ export class PageSwitch extends Options {
           const delta = ev.wheelDelta || -ev.detail;
           if (Math.abs(delta) >= 3) {
             if (delta > 0) {
-              this.prev();
+              this.previous();
             } else {
               this.next();
             }
@@ -423,7 +432,7 @@ export class PageSwitch extends Options {
             case 33:
             case 37:
             case 38:
-              this.prev();
+              this.previous();
               break;
             case 32:
             case 34:

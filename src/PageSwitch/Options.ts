@@ -85,7 +85,7 @@ export class Options {
     return transition;
   }
 
-  public fixIndex(index: number) {
+  protected fixIndex(index: number) {
     return this.length > 1 && this.loop
       ? (this.length + index) % this.length
       : index;
