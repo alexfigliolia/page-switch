@@ -27,7 +27,7 @@ export interface PageDatum {
 export type Rect = [x: number, y: number];
 
 export type PageSwitchEvents = {
-  before: (current: number, previous: number) => void;
+  before: (current: number, next: number) => void;
   after: (current: number, previous: number) => void;
   update: (
     currentPage: HTMLElement,
