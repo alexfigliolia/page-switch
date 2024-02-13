@@ -236,7 +236,7 @@ export class PageSwitch extends Options {
     this.removeRange();
   }
 
-  private slide(index: number) {
+  public slide(index: number) {
     let duration = this.duration;
     const startTime = +new Date();
     const current = this.current;
