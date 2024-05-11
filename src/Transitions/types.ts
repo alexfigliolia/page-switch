@@ -124,4 +124,6 @@ export interface ITransitions {
   bombCoverOutY: TransitionFN;
 }
 
-export type Transition = Extract<keyof ITransitions, string> | TransitionFN;
+export type TransitionName = Extract<keyof ITransitions, string>;
+
+export type Transition = TransitionName | TransitionFN;

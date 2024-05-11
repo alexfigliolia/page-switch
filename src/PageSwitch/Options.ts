@@ -1,5 +1,6 @@
 import type { EaseString, EasingFN } from "Easing";
 import { Easing } from "Easing";
+import type { TransitionName } from "Transitions";
 import {
   Transitions,
   type Transition,
@@ -21,7 +22,6 @@ export class Options {
   interval: number;
   arrowKey: boolean;
   mousewheel: boolean;
-  transitionName = "";
   container: HTMLElement;
   transition: TransitionFN;
   events: ListenerCache = {
@@ -29,6 +29,7 @@ export class Options {
   };
   pages: HTMLElement[] = [];
   pageData: PageDatum[] = [];
+  transitionName: TransitionName | "" = "";
   private readonly transitions: ITransitions;
   constructor(selector: IDOrElement, config: Partial<IOptions>) {
     const options = this.withDefaults(config);
