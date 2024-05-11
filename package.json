@@ -1,6 +1,6 @@
 {
   "name": "@figliolia/page-switch",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A page animation library based on the clever work of @qiqiboy",
   "main": "dist/cjs/index.js",
   "module": "dist/mjs/index.js",
