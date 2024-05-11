@@ -21,6 +21,7 @@ export class Options {
   interval: number;
   arrowKey: boolean;
   mousewheel: boolean;
+  transitionName = "";
   container: HTMLElement;
   transition: TransitionFN;
   events: ListenerCache = {
@@ -78,8 +79,10 @@ export class Options {
     let transition: TransitionFN;
     if (typeof type === "function") {
       transition = type;
+      this.transitionName = "";
     } else {
       transition = this.transitions[type] || this.transitions.slide;
+      this.transitionName = type in this.transitions ? type : "slide";
     }
     this.events.update.splice(0, 1, transition);
     return transition;
