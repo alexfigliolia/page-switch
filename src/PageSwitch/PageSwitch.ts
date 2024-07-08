@@ -264,7 +264,7 @@ export class PageSwitch extends Options {
     this.current = fixIndex;
     duration *= Math.abs(target - percent);
     this.Animation.markTransition(startTime + duration);
-    const ani = () => {
+    const animation = () => {
       const offset = Math.min(duration, +new Date() - startTime),
         s = duration ? this.ease(offset, 0, 1, duration) : 1,
         cp = (target - percent) * s + percent;
@@ -276,10 +276,10 @@ export class PageSwitch extends Options {
         this.Animation.lastFrame = null;
         this.fire("after", fixIndex, current);
       } else {
-        this.Animation.run(ani);
+        this.Animation.run(animation);
       }
     };
-    ani();
+    animation();
     return this;
   }
 
