@@ -7,7 +7,7 @@ export interface IOptions {
   arrowKey: boolean;
   interval: number;
   mousewheel: boolean;
-  mouse: boolean;
+  draggable: boolean;
   loop: boolean;
   direction: 0 | 1;
   duration: number;

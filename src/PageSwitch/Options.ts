@@ -14,13 +14,13 @@ export class Options {
   loop: boolean;
   ease: EasingFN;
   length: number;
-  mouse: boolean;
   frozen: boolean;
   playing: boolean;
   duration: number;
   direction: 1 | 0;
   interval: number;
   arrowKey: boolean;
+  draggable: boolean;
   mousewheel: boolean;
   container: HTMLElement;
   transition: TransitionFN;
@@ -35,10 +35,10 @@ export class Options {
     const options = this.withDefaults(config);
     this.container = this.getSelector(selector);
     this.loop = !!options.loop;
-    this.mouse = !!options.mouse;
     this.frozen = !!options.frozen;
     this.playing = !!options.autoplay;
     this.arrowKey = !!options.arrowKey;
+    this.draggable = !!options.draggable;
     this.mousewheel = !!options.mousewheel;
     this.current = this.parseInt(options.start, 0);
     this.duration = this.parseInt(options.duration, 600);
@@ -57,7 +57,7 @@ export class Options {
     direction: 1,
     loop: true,
     start: 0,
-    mouse: true,
+    draggable: true,
     ease: Easing.ease,
     autoplay: false,
     mousewheel: true,

@@ -200,10 +200,10 @@ export class PageSwitch extends Options {
 
   private canDrag(event: PWEvent) {
     return (
+      this.draggable &&
       event.button < 1 &&
       event.length < 2 &&
-      (!this.pointerType || this.pointerType == event.eventType) &&
-      (this.mouse || event.pointerType !== "mouse")
+      (!this.pointerType || this.pointerType == event.eventType)
     );
   }
 
