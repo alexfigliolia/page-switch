@@ -382,7 +382,7 @@ export class PageSwitch extends Options {
             if (isDrag && offset) {
               if (
                 (+new Date() - currentTime < 500 && Math.abs(offset) > 20) ||
-                Math.abs(percent) > 0.5
+                Math.abs(percent) > 0.2
               ) {
                 index += offset > 0 ? -1 : 1;
               }
