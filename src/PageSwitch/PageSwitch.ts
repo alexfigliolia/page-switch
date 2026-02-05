@@ -409,7 +409,7 @@ export class PageSwitch extends Options {
         ev.preventDefault();
         if (
           this.isStatic &&
-          this.Animation.sinceLastTransition > Math.max(1000 - this.duration, 0)
+          this.Animation.sinceLastTransition > this.duration
         ) {
           const delta = ev.wheelDelta || -ev.detail;
           if (Math.abs(delta) >= 3) {
